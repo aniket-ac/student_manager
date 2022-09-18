@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:student_manager/constants.dart';
 import 'package:student_manager/components/rounded_button.dart';
+
+import '../firebase_options.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,9 +18,30 @@ class _LoginPageState extends State<LoginPage> {
 
   final email = TextEditingController();
   final password = TextEditingController();
+  void signin (String email, String pass, BuildContext context) async{
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    // await FirebaseAuth.instance.useAuthEmulator("localhost", 9099);
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email,
+          password: pass
+      );
+      Navigator.pushNamed(context, menuPage);
+    } on FirebaseAuthException catch (e) {
+        debugPrint(e.message);
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
         body: Center(
@@ -69,9 +94,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 child: const Text('Login'),
                 onPressed: () {
-                  if(email.text == 'abcd@gmail.com' && password.text == '1234567'){
-                    Navigator.pushNamed(context, menuPage);
-                  }
+                  signin(email.text, password.text, context);
+
                 },
               ),
             ],
