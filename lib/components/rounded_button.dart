@@ -4,47 +4,40 @@ import 'package:student_manager/constants.dart';
 
 class FadingAnimation extends StatelessWidget {
   final double sizeOfFont;
+
   final double heightOfText;
   const FadingAnimation({
-    Key? key, required this.sizeOfFont, required this.heightOfText,
+    Key? key, required this.sizeOfFont,required this.heightOfText
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            FadeInDown(
+        child: FadeInDown(
               duration: const Duration(seconds: 2),
               child: Logo(sizeOfFont,heightOfText),
-            ),
-          ],
         )
     );
   }
 }
 
 class Logo extends StatelessWidget {
-  const Logo(this.sizeFont,this.textHeight);
+   Logo(this.sizeFont,this.height);
 
   final double sizeFont;
-  final double textHeight;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      width: textHeight,
-      height: textHeight,
-      decoration:  BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(textHeight)),
-        border: const Border.fromBorderSide(
-          BorderSide(
-            width: 5.0,
-            color: Colors.cyan,
-          ),
-        ),
+      height: height,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          width: 10.0,
+          color:  Colors.lightBlueAccent,
+        )
       ),
       child: Text(
         sma,

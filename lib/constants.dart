@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 String welcomePage = 'welcome_page';
 String login = 'login_page';
+String register = 'registration_page';
 String menuPage = 'menu_page';
 String timeTable = 'time_table';
 String announce = 'announcement';
@@ -46,4 +47,28 @@ List announceList = [
   'This is Announcement 6. This array is inside student_manager/lib/constants and try to connect this with new file of notepad or something.',
 ];
 
+class LogNRegister extends StatelessWidget {
+  const LogNRegister({
+    Key? key, required this.choice, required this.route,
+  }) : super(key: key);
 
+  final String choice,route;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        Navigator.pushNamed(context, route);
+      },
+      child: Padding(
+        padding: EdgeInsets.all(50.0),
+        child: Text(
+          choice,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}

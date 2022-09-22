@@ -6,31 +6,31 @@ import 'package:student_manager/components/rounded_button.dart';
 
 import '../firebase_options.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({Key? key}) : super(key: key);
 
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegistrationPage> createState() => _RegistrationPage();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegistrationPage extends State<RegistrationPage> {
 
-  final email = TextEditingController();
-  final password = TextEditingController();
-  void signIn (String email, String pass, BuildContext context) async{
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+  void _signIn (String email, String pass, BuildContext context) async{
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     // await FirebaseAuth.instance.useAuthEmulator("localhost", 9099);
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: email,
           password: pass
       );
       Navigator.pushNamed(context, menuPage);
     } on FirebaseAuthException catch (e) {
-        debugPrint(e.message);
+      debugPrint(e.message);
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
@@ -44,20 +44,19 @@ class _LoginPageState extends State<LoginPage> {
 
     return SafeArea(
       child: Scaffold(
-        body: Center(
-          child: ListView(
-            padding: EdgeInsets.all(20.0),
+        body: ListView(
+          padding: EdgeInsets.all(20.0),
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.all(30.0),
                 child: Hero(
                     tag: mainLogo,
-                    child: Logo(30.0,250.0),
-                  ),
+                    child:  Logo(30.0,250.0),
+                ),
               ),
               Center(
                 child: Text(
-                    'LOGIN',
+                  'REGISTER',
                   style: TextStyle(
                     fontFamily: fontRighteous,
                     fontSize: 50.0,
@@ -71,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextField(
-                  controller: email,
+                  controller: _email,
                   decoration: const InputDecoration(
                     hintText: 'Email',
                     border: OutlineInputBorder(
@@ -83,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextField(
-                  controller: password,
+                  controller: _password,
                   obscureText: true,
                   decoration: const InputDecoration(
                     hintText: 'Password',
@@ -97,18 +96,15 @@ class _LoginPageState extends State<LoginPage> {
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.red[900]),
                 ),
-                child: const Text('Login'),
+                child: const Text('Register'),
                 onPressed: () {
-                  signIn(email.text, password.text, context);
+                  _signIn(_email.text, _password.text, context);
 
                 },
               ),
             ],
           ),
         ),
-      ),
     );
   }
 }
-
-

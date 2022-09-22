@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:student_manager/pages/announcement.dart';
 import 'package:student_manager/pages/login_page.dart';
+import 'package:student_manager/pages/registration_page.dart';
 import 'package:student_manager/pages/result_page.dart';
 import 'package:student_manager/pages/setting.dart';
 import 'package:student_manager/pages/time_table.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark(),
       initialRoute: welcomePage,
       routes: {
+        register : (context) => RegistrationPage(),
         welcomePage : (context) => WelcomePage(),
         login : (context) => const LoginPage(),
         menuPage : (context) => MenuPage(),
